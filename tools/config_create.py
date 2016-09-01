@@ -1,3 +1,4 @@
+from os.path import dirname, abspath
 import ConfigParser
 
 config = ConfigParser.RawConfigParser()
@@ -16,5 +17,6 @@ config.set('zimuzu', 'video_format', 'HR-HDTV')
 config.set('zimuzu', 'url_login', 'http://www.zimuzu.tv/User/Login/ajaxLogin')
 config.set('zimuzu', 'url_des', 'http://www.zimuzu.tv/resource/list/')
 
-with open('../config/app.conf','wb') as configfile:
+path = dirname(abspath(__file__))
+with open(path + '/../config/app.conf','wb') as configfile:
     config.write(configfile)
