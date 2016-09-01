@@ -5,8 +5,8 @@ password = root
 database = pa
 
 [zimuzu]
-login = lwf.emd
-password = zimuzu
+login = login
+password = password
 remember = 0
 video_format = HR-HDTV
 url_login = http://www.zimuzu.tv/User/Login/ajaxLogin
