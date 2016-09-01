@@ -7,56 +7,96 @@ def usage():
     print " + shows"
     print " | + list"
     print " | + info + [name]"
-    print " | + update + [name]"
+    print " | + update + all|[name]"
+    print " | + check all|[name]"
     print " | + add [name] [season] [episode] [ref]"
 
 def ok(str):
-    print "[OK]" + str
+    print "[OK] " + str
 
 def error(str):
-    print "[ERROR]" + str
+    print "[ERROR] " + str
 
 if sys.argv[1] == 'help':
     usage()
 
-try:
+if True:
     if sys.argv[1] == 'shows':
         if sys.argv[2] == 'list':
             s = Show()
-            print s.all()
+            names = s.names()
+            notseen = "=" * 20 + "\n"
+            notseen += "=" * 5 + " NOT SEEN " + "=" * 5 + "\n"
+            notseen += "=" * 20 + "\n"
+            seen = "=" * 20 + "\n"
+            seen += "=" * 7 + " SEEN " + "=" * 7 + "\n"
+            seen += "=" * 20 + "\n"
+            i = 0
+            j = 0
+            for n in names:
+                s = Show(n)
+                if s.seen:
+                    i += 1
+                    seen += "%02d. %-20s S%02dE%02d\n" % (i, s.name, s.season, s.episode)
+                else:
+                    j += 1
+                    notseen += "%02d. %-20s S%02dE%02d\n" % (j, s.name, s.season, s.episode)
+            print notseen
+            print seen
+
         elif sys.argv[2] == 'update':
-            z = Zimuzu()
             name = sys.argv[3]
-            if z.updatelink(name):
-                ok("New episode")
+            if name == "all":
+                new = "=" * 20 + "\n"
+                new += "=" * 3 + " NEW EPISODES " + "=" * 3 + "\n"
+                new += "=" * 20
+                print new
                 s = Show()
-                if s.load(name):
+                names = s.names()
+                for n in names:
+                    s = Show(n)
+                    if s.seen:
+                        z = Zimuzu()
+                        if z.updatelink(n):
+                            s = Show(n)
+                            print "%s S%dE%d\n%s" % (s.name, s.season, s.episode, s.link) + "\n"
+            else:
+                s = Show(name)
+                if not s.seen:
+                    ok("Not seen yet")
+                    exit()
+                z = Zimuzu()
+                if z.updatelink(name):
+                    ok("New episode")
+                    s = Show(name)
                     ok("%s S%dE%d\n%s" % (s.name, s.season, s.episode, s.link))
                 else:
-                    error("Load failed")
-            else:
-                ok("Not update available")
+                    ok("Not update available")
         elif sys.argv[2] == 'add':
             s = Show()
             s.name = sys.argv[3]
             s.season = int(sys.argv[4])
             s.episode= int(sys.argv[5])
             s.ref = int(sys.argv[6])
-            if s.store():
-                ok("New show added")
-            else:
-                error("Adding new show failed")
+            s.store()
+            ok("New show added")
         elif sys.argv[2] == 'info':
-            s = Show()
-            name = sys.argv[3]
-            if s.load(name):
-                ok("%s S%dE%d\n%s" % (s.name, s.season, s.episode, s.link))
+            s = Show(sys.argv[3])
+            ok("%s S%dE%d\n%s" % (s.name, s.season, s.episode, s.link))
+        elif sys.argv[2] == "check":
+            if sys.argv[3] == "all":
+                s = Show()
+                names = s.names()
+                for n in names:
+                    s = Show(n)
+                    s.seen = True
+                    s.store()
             else:
-                error("Load failed")
+                s = Show(sys.argv[3])
+                s.seen = True
+                s.store()
+            ok("Status updated")
         else:
             usage()
     else:
         usage()
-
-except:
-    usage()

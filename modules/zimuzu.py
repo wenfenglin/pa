@@ -3,8 +3,7 @@ import ConfigParser
 from os.path import abspath, dirname
 from bs4 import BeautifulSoup
 from shows import Show
-
-
+import time
 
 class Zimuzu:
 
@@ -53,11 +52,15 @@ class Zimuzu:
                         if ed2k:
                             show.episode = show.episode + 1
                             show.link = ed2k['href']
+                            show.lastupdate = int(time.time())
+                            show.seen = False
                             return show.store()
                         magnet = dl.find("a", type="magnet")
                         if magnet:
                             show.episode = show.episode + 1
                             show.link = ed2k['href']
+                            show.lastupdate = int(time.time())
+                            show.seen = False
                             return show.store()
         return False
 
