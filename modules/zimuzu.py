@@ -49,6 +49,7 @@ class Zimuzu:
                 for dl in e.find_all("div"):
                     if 'fr' in dl['class']:
                         ed2k = dl.find("a", type="ed2k")
+                        magnet = dl.find("a", type="magnet")
                         if ed2k:
                             show.episode = show.episode + 1
                             show.link = ed2k['href']
@@ -56,14 +57,16 @@ class Zimuzu:
                             show.seen = False
                             show.store()
                             return True
-                        magnet = dl.find("a", type="magnet")
-                        if magnet:
+                        elif magnet:
                             show.episode = show.episode + 1
                             show.link = ed2k['href']
                             show.last_update = int(time.time())
                             show.seen = False
                             show.store()
                             return True
+                        else:
+                            show.last_update = int(time.time())
+                            show.store()
         return False
 
 if __name__ == '__main__':
