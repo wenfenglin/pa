@@ -1,9 +1,11 @@
 from modules.shows import Show
 from modules.zimuzu import Zimuzu
 import sys
+import time
 
 def usage():
     print "[prog]"
+    print " + help"
     print " + shows"
     print " | + list"
     print " | + info + [name]"
@@ -35,12 +37,15 @@ if True:
             j = 0
             for n in names:
                 s = Show(n)
+                n_days = (int(time.time()) - s.last_update) / 3600 / 24
+                if n_days > 365:
+                    n_days = 365
                 if s.seen:
                     i += 1
-                    seen += "%02d. %-20s S%02dE%02d\n" % (i, s.name, s.season, s.episode)
+                    seen += "%02d. %-20s S%02dE%02d (updated %d days ago)\n" % (i, s.name, s.season, s.episode, n_days)
                 else:
                     j += 1
-                    notseen += "%02d. %-20s S%02dE%02d\n" % (j, s.name, s.season, s.episode)
+                    notseen += "%02d. %-20s S%02dE%02d (updated %d days ago)\n" % (j, s.name, s.season, s.episode, n_days)
             print notseen
             print seen
 
@@ -69,7 +74,7 @@ if True:
                 if z.updatelink(name):
                     ok("New episode")
                     s = Show(name)
-                    ok("%s S%dE%d\n%s" % (s.name, s.season, s.episode, s.link))
+                    print "%s S%dE%d\n%s" % (s.name, s.season, s.episode, s.link)
                 else:
                     ok("Not update available")
         elif sys.argv[2] == 'add':
@@ -82,7 +87,10 @@ if True:
             ok("New show added")
         elif sys.argv[2] == 'info':
             s = Show(sys.argv[3])
-            ok("%s S%dE%d\n%s" % (s.name, s.season, s.episode, s.link))
+            n_days = (int(time.time()) - s.last_update) / 3600 / 24
+            if n_days > 365:
+                n_days = 365
+            print "%s S%dE%d (updated %d days ago)\n%s" % (s.name, s.season, s.episode, n_days, s.link)
         elif sys.argv[2] == "check":
             if sys.argv[3] == "all":
                 s = Show()

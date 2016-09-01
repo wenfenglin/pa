@@ -1,0 +1,48 @@
+<html>
+<body>
+<p>
+
+{% if msg %}
+==================================================<br/>
+==================== MESSAGES ====================<br/>
+==================================================<br/>
+<strong>{{ msg }}</strong>
+<br/>
+<br/>
+{% endif %}
+
+{% if notseen %}
+==================================================<br/>
+==================== NOT SEEN ====================<br/>
+==================================================<br/>
+{% for show in notseen %}
+<b>{{ show.name }}</b> 
+(updated {{ show.days }} days ago)<br/>
+Season {{ '%02d' % show.season }}&nbsp;
+Episode {{ '%02d' % show.episode }}&nbsp;
+<a href="{{ show.link}}">link</a>
+<a href="/shows/check/{{ show.name }}">check</a>
+<br/>
+<br/>
+{% endfor %}
+{% endif %}
+
+{% if seen %}
+==================================================<br/>
+====================== SEEN ======================<br/>
+==================================================<br/>
+{% for show in seen %}
+<b>{{ show.name }}</b> 
+(updated {{ show.days }} days ago)<br/>
+Season {{ '%02d' % show.season }}&nbsp;
+Episode {{ '%02d' % show.episode }}&nbsp;
+<a href="{{ show.link}}">link</a>
+<a href="/shows/update/{{ show.name }}">update</a>
+<br/>
+<br/>
+{% endfor %}
+{% endif %}
+
+</p>
+</body>
+</html>

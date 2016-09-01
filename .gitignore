@@ -1,2 +1,3 @@
 config/app.conf
 modules/*.pyc
+log/*.log

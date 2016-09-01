@@ -52,16 +52,18 @@ class Zimuzu:
                         if ed2k:
                             show.episode = show.episode + 1
                             show.link = ed2k['href']
-                            show.lastupdate = int(time.time())
+                            show.last_update = int(time.time())
                             show.seen = False
-                            return show.store()
+                            show.store()
+                            return True
                         magnet = dl.find("a", type="magnet")
                         if magnet:
                             show.episode = show.episode + 1
                             show.link = ed2k['href']
-                            show.lastupdate = int(time.time())
+                            show.last_update = int(time.time())
                             show.seen = False
-                            return show.store()
+                            show.store()
+                            return True
         return False
 
 if __name__ == '__main__':
