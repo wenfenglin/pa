@@ -1,0 +1,10 @@
+Thu Sep 1 18:01:15 CEST 2016
+ * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger pin code: 215-409-367
+192.168.1.55 - - [01/Sep/2016 18:01:29] "GET / HTTP/1.1" 302 -
+192.168.1.55 - - [01/Sep/2016 18:01:29] "GET /shows/list HTTP/1.1" 200 -
+192.168.1.23 - - [01/Sep/2016 18:03:01] "GET / HTTP/1.1" 302 -
+192.168.1.23 - - [01/Sep/2016 18:03:01] "GET /shows/list HTTP/1.1" 200 -
+192.168.1.23 - - [01/Sep/2016 18:03:01] "GET /favicon.ico HTTP/1.1" 404 -
