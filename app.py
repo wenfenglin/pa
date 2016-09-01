@@ -5,7 +5,8 @@ import sys
 def usage():
     print "[prog]"
     print " + shows"
-    print " | + all"
+    print " | + list"
+    print " | + info + [name]"
     print " | + update + [name]"
     print " | + add [name] [season] [episode] [ref]"
 
@@ -20,10 +21,10 @@ if sys.argv[1] == 'help':
 
 try:
     if sys.argv[1] == 'shows':
-        if sys.argv[2] == 'all':
+        if sys.argv[2] == 'list':
             s = Show()
             print s.all()
-        if sys.argv[2] == 'update':
+        elif sys.argv[2] == 'update':
             z = Zimuzu()
             name = sys.argv[3]
             if z.updatelink(name):
@@ -35,7 +36,7 @@ try:
                     error("Load failed")
             else:
                 ok("Not update available")
-        if sys.argv[2] == 'add':
+        elif sys.argv[2] == 'add':
             s = Show()
             s.name = sys.argv[3]
             s.season = int(sys.argv[4])
@@ -45,5 +46,17 @@ try:
                 ok("New show added")
             else:
                 error("Adding new show failed")
+        elif sys.argv[2] == 'info':
+            s = Show()
+            name = sys.argv[3]
+            if s.load(name):
+                ok("%s S%dE%d\n%s" % (s.name, s.season, s.episode, s.link))
+            else:
+                error("Load failed")
+        else:
+            usage()
+    else:
+        usage()
+
 except:
     usage()
