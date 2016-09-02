@@ -20,14 +20,22 @@ def shows_list():
     for n in names:
         s = Show(n)
         info = {}
-        n_days = (int(time.time()) - s.last_update) / 3600 / 24
-        if n_days > 365:
-            n_days = 365
-        info['days'] = n_days
+        n_sec = (int(time.time()) - s.last_update)
+        timestr = ""
+        if n_sec < 60:
+            timestr = "%d seconds" % n_sec
+        elif n_sec < 3600:
+            timestr = "%d minutes" % (n_sec/60)
+        elif n_sec < 3600 * 24:
+            timestr = "%d hours" % (n_sec/3600)
+        else:
+            timestr = "%d days" % (n_sec/3600/24)
+        info['time'] = timestr
         info['name'] = s.name
         info['season'] = s.season
         info['episode'] = s.episode
         info['link'] = s.link
+        info['comment'] = s.comment
         if s.seen:
             seen.append(info)
         else:

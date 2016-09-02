@@ -17,7 +17,7 @@
 ==================================================<br/>
 {% for show in notseen %}
 <b>{{ show.name }}</b> 
-(updated {{ show.days }} days ago)<br/>
+({{ show.comment }}, checked update {{ show.time }} ago)<br/>
 Season {{ '%02d' % show.season }}&nbsp;
 Episode {{ '%02d' % show.episode }}&nbsp;
 <a href="{{ show.link}}">link</a>
@@ -33,7 +33,7 @@ Episode {{ '%02d' % show.episode }}&nbsp;
 ==================================================<br/>
 {% for show in seen %}
 <b>{{ show.name }}</b> 
-(updated {{ show.days }} days ago)<br/>
+({{ show.comment }}, checked update {{ show.time }} ago)<br/>
 Season {{ '%02d' % show.season }}&nbsp;
 Episode {{ '%02d' % show.episode }}&nbsp;
 <a href="{{ show.link}}">link</a>

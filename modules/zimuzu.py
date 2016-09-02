@@ -36,6 +36,9 @@ class Zimuzu:
 
     def updatelink(self, name):
         show = Show(name)
+        show.last_update = int(time.time())
+        show.comment = "Not update available"
+        show.store()
         if not show.name:
             return False
         if self._login() == False:
@@ -53,20 +56,22 @@ class Zimuzu:
                         if ed2k:
                             show.episode = show.episode + 1
                             show.link = ed2k['href']
-                            show.last_update = int(time.time())
                             show.seen = False
+                            show.comment = "ed2k"
                             show.store()
                             return True
                         elif magnet:
                             show.episode = show.episode + 1
                             show.link = ed2k['href']
-                            show.last_update = int(time.time())
                             show.seen = False
+                            show.comment = "magnet"
                             show.store()
                             return True
                         else:
-                            show.last_update = int(time.time())
+                            show.comment = "Updated but no link"
                             show.store()
+                            return False 
+
         return False
 
 if __name__ == '__main__':
